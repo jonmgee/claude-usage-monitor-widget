@@ -107,8 +107,9 @@
     restoreModel: async () => ({ ok: true }),
     pingNow: async () => ({ ok: true }),
   };
+  const QS = new URLSearchParams(location.search);
   const MOCK = {
-    skin: 'lcars',
+    skin: QS.get('skin') || 'lcars',
     live: true, plan: 'Max (5x)', updatedAt: Date.now(), sampledAt: Date.now() - 5 * 60e3,
     session: { pct: 22, reset: Date.now() + 4 * 3600e3 + 1 * 60e3, active: true, tokens: 4.6e6 },
     week: { pct: 3, reset: new Date('2026-08-04T16:03:00').getTime(), tokens: 99.3e6 },
@@ -122,4 +123,9 @@
   };
 </script>
 <script src="renderer.js"></script>
-<script>_render(MOCK);</script>
+<script>
+  _render(MOCK);
+  // ?mon=1 opens the heartbeat monitor so screenshots can show the ECG trace.
+  if (QS.get('mon') === '1') document.getElementById('monitor').classList.remove('hidden');
+  _render(MOCK);
+</script>

@@ -4,7 +4,39 @@ A small floating desktop widget that shows your Claude Code usage — current 5-
 session and weekly (all models + Fable) — without opening the usage panel each time.
 It floats on top of your windows, or you can un-pin it to sit under them.
 
-![widget](preview.html)
+<p align="center">
+  <img src="docs/shots/lcars.png" width="300" alt="The widget in its LCARS skin, heartbeat monitor open">
+</p>
+
+### Twelve skins, one widget
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/shots/macos.png" width="230" alt="macOS native skin"><br><sub><b>macOS native</b></sub></td>
+    <td align="center"><img src="docs/shots/win11.png" width="230" alt="Windows 11 skin"><br><sub><b>Windows 11</b></sub></td>
+    <td align="center"><img src="docs/shots/nixie.png" width="230" alt="Nixie steampunk skin"><br><sub><b>Nixie steampunk</b></sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/shots/reactor.png" width="230" alt="Reactor skin"><br><sub><b>Reactor</b></sub></td>
+    <td align="center"><img src="docs/shots/scribble.png" width="230" alt="Scribble skin"><br><sub><b>Scribble</b></sub></td>
+    <td align="center"><img src="docs/shots/enigma.png" width="230" alt="Enigma skin"><br><sub><b>Enigma</b></sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/shots/dash.png" width="230" alt="Dashboard skin"><br><sub><b>Dashboard</b></sub></td>
+    <td align="center"><img src="docs/shots/cockpit.png" width="230" alt="Cockpit skin"><br><sub><b>Cockpit</b></sub></td>
+    <td align="center"><img src="docs/shots/term.png" width="230" alt="Retro terminal skin"><br><sub><b>Retro terminal</b></sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/shots/synth.png" width="230" alt="Synthwave skin"><br><sub><b>Synthwave</b></sub></td>
+    <td align="center"><img src="docs/shots/gameboy.png" width="230" alt="Game Boy skin"><br><sub><b>Game Boy</b></sub></td>
+    <td align="center"><img src="docs/shots/lcars.png" width="230" alt="LCARS skin"><br><sub><b>LCARS</b></sub></td>
+  </tr>
+</table>
+
+<sub>Screenshots use mock data. The macOS and Windows 11 skins follow your system
+appearance, so they'll be light or dark to match; the shot above is dark mode.
+LCARS is shown with its fallback font &mdash; install
+<a href="https://fonts.google.com/specimen/Antonio">Antonio</a> for the exact TV lettering.</sub>
 
 ## Launch it
 
@@ -218,7 +250,10 @@ so a Fable figure would have to be invented.
 - `usage.js` — reads the plan-usage cache and works out the session window
 - `preload.js` — safe bridge between window and UI
 - `renderer/` — the card UI (`index.html`, `styles.css`, `renderer.js`)
-- `renderer/preview.html` — design preview with mock data (not used by the app)
+- `renderer/preview.html` — design preview with mock data (not used by the app).
+  Accepts `?skin=<name>` and `?mon=1` so a skin can be opened directly.
+- `tools/shots.js` — regenerates the README screenshots into `docs/shots/`
+  (`npx electron tools/shots.js`, optionally with skin names to do just a few)
 
 Config (refresh interval, pin state) is saved to Electron's user-data folder as
 `config.json`.
