@@ -1,38 +1,60 @@
 # Claude Usage Monitor Widget
 
-A small floating desktop widget that shows your Claude Code usage — current 5-hour
-session and weekly (all models + Fable) — without opening the usage panel each time.
-It floats on top of your windows, or you can un-pin it to sit under them.
+**Start your Claude 5-hour window before you sit down to work.**
+
+The 5-hour session window doesn't start on a timer — it starts on your *first*
+message. So if you get home at six and work until midnight, you burn one window
+and wait. Set the widget to send a tiny message at 3pm and the window is already
+running when you arrive: it resets at 8pm, and you get a second full allowance
+out of the same evening.
+
+That's the point of it. It also happens to be a floating usage display — current
+5-hour session and weekly, always visible, so you're not opening the usage panel
+every ten minutes — and it can automatically step Claude Code down to a cheaper
+model as a window fills up.
+
+- **Auto-ping** — schedule as many window-start times as you like. Each fires only
+  if no window is already running, so nothing is wasted. It gives you no extra
+  weekly quota; it moves *when* your windows fall.
+- **Auto step-down** — at thresholds you set (say 50% → Opus, 75% → Sonnet,
+  90% → Haiku), the default model for new sessions drops a tier.
+- **Live usage, at a glance** — the real percentages, floating on top or tucked
+  under your windows.
+- **Twelve skins** — from a Star Trek LCARS panel to something that looks like
+  Apple shipped it.
 
 ### Twelve skins, one widget
 
 <table>
   <tr>
-    <td align="center"><img src="docs/shots/macos.png" width="230" alt="macOS native skin"><br><sub><b>macOS native</b></sub></td>
+    <td align="center"><img src="docs/shots/macos.png" width="230" alt="macOS native skin with the settings panel open"><br><sub><b>macOS native</b><br>settings</sub></td>
+    <td align="center"><img src="docs/shots/enigma.png" width="230" alt="Enigma skin with the settings panel open"><br><sub><b>Enigma</b><br>settings</sub></td>
+    <td align="center"><img src="docs/shots/scribble.png" width="230" alt="Scribble skin with the settings panel open"><br><sub><b>Scribble</b><br>settings</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/shots/lcars.png" width="230" alt="LCARS skin with the heartbeat monitor open"><br><sub><b>LCARS</b><br>heartbeat monitor</sub></td>
+    <td align="center"><img src="docs/shots/reactor.png" width="230" alt="Reactor skin with the heartbeat monitor open"><br><sub><b>Reactor</b><br>heartbeat monitor</sub></td>
+    <td align="center"><img src="docs/shots/synth.png" width="230" alt="Synthwave skin with the heartbeat monitor open"><br><sub><b>Synthwave</b><br>heartbeat monitor</sub></td>
+  </tr>
+  <tr>
     <td align="center"><img src="docs/shots/win11.png" width="230" alt="Windows 11 skin"><br><sub><b>Windows 11</b></sub></td>
     <td align="center"><img src="docs/shots/nixie.png" width="230" alt="Nixie steampunk skin"><br><sub><b>Nixie steampunk</b></sub></td>
-  </tr>
-  <tr>
-    <td align="center"><img src="docs/shots/reactor.png" width="230" alt="Reactor skin"><br><sub><b>Reactor</b></sub></td>
-    <td align="center"><img src="docs/shots/scribble.png" width="230" alt="Scribble skin"><br><sub><b>Scribble</b></sub></td>
-    <td align="center"><img src="docs/shots/enigma.png" width="230" alt="Enigma skin"><br><sub><b>Enigma</b></sub></td>
-  </tr>
-  <tr>
     <td align="center"><img src="docs/shots/dash.png" width="230" alt="Dashboard skin"><br><sub><b>Dashboard</b></sub></td>
+  </tr>
+  <tr>
     <td align="center"><img src="docs/shots/cockpit.png" width="230" alt="Cockpit skin"><br><sub><b>Cockpit</b></sub></td>
     <td align="center"><img src="docs/shots/term.png" width="230" alt="Retro terminal skin"><br><sub><b>Retro terminal</b></sub></td>
-  </tr>
-  <tr>
-    <td align="center"><img src="docs/shots/synth.png" width="230" alt="Synthwave skin"><br><sub><b>Synthwave</b></sub></td>
     <td align="center"><img src="docs/shots/gameboy.png" width="230" alt="Game Boy skin"><br><sub><b>Game Boy</b></sub></td>
-    <td align="center"><img src="docs/shots/lcars.png" width="230" alt="LCARS skin"><br><sub><b>LCARS</b></sub></td>
   </tr>
 </table>
 
-<sub>Screenshots use mock data. The macOS and Windows 11 skins follow your system
-appearance, so they'll be light or dark to match; these were taken in dark mode.
-LCARS is shown with its fallback font &mdash; install
-<a href="https://fonts.google.com/specimen/Antonio">Antonio</a> for the exact TV lettering.</sub>
+<sub>Screenshots use mock data, and are all at the widget's real 340px width. The
+top row shows the settings panel, the second row the heartbeat monitor (an ECG
+trace of your scheduled pings); the rest are the compact default view. The macOS
+and Windows 11 skins follow your system appearance, so they'll be light or dark to
+match &mdash; these were taken in dark mode. LCARS is shown with its fallback font;
+install <a href="https://fonts.google.com/specimen/Antonio">Antonio</a> for the
+exact TV lettering.</sub>
 
 ## Launch it
 
@@ -247,8 +269,9 @@ so a Fable figure would have to be invented.
 - `preload.js` — safe bridge between window and UI
 - `renderer/` — the card UI (`index.html`, `styles.css`, `renderer.js`)
 - `renderer/preview.html` — design preview with mock data (not used by the app).
-  Accepts `?skin=<name>`, `?mon=1`, `?pct=` and `?wk=` so any skin can be opened
-  directly at any usage level (useful for checking layout at 100%).
+  Accepts `?skin=<name>`, `?mon=1` (heartbeat monitor), `?opt=1` (settings),
+  `?pct=`/`?wk=` (usage levels) and `?bare=<px>` (drop the harness chrome and lay
+  the card out at the real window width).
 - `tools/shots.js` — regenerates the README screenshots into `docs/shots/`
   (`npx electron tools/shots.js`, optionally with skin names to do just a few)
 

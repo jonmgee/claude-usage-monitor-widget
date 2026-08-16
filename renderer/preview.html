@@ -1,7 +1,7 @@
 <!-- Preview harness: renders the widget UI in a plain browser with mock data,
      so the layout can be checked without launching Electron. Not used by the app. -->
-<div style="background:#111;min-height:340px;display:flex;align-items:flex-start;justify-content:center;padding:20px;">
-<div style="width:360px;">
+<div id="pv-outer" style="background:#111;min-height:340px;display:flex;align-items:flex-start;justify-content:center;padding:20px;">
+<div id="pv-inner" style="width:360px;">
 <div id="card" class="lcars">
   <div class="top">
     <div class="elbow"></div>
@@ -108,6 +108,13 @@
     pingNow: async () => ({ ok: true }),
   };
   const QS = new URLSearchParams(location.search);
+  // ?bare=<px> drops the harness chrome and pins the card to a real window width,
+  // so measurements and screenshots match what the Electron window actually does.
+  if (QS.has('bare')) {
+    const w = Number(QS.get('bare')) || 340;
+    document.getElementById('pv-outer').setAttribute('style', 'display:block;padding:0;background:transparent;');
+    document.getElementById('pv-inner').setAttribute('style', `width:${w}px;`);
+  }
   const MOCK = {
     skin: QS.get('skin') || 'lcars',
     live: true, plan: 'Max (5x)', updatedAt: Date.now(), sampledAt: Date.now() - 5 * 60e3,
@@ -127,5 +134,8 @@
   _render(MOCK);
   // ?mon=1 opens the heartbeat monitor so screenshots can show the ECG trace.
   if (QS.get('mon') === '1') document.getElementById('monitor').classList.remove('hidden');
+  // ?opt=1 opens the settings panel via its own button, so the ping-time and
+  // step-down tier rows get built exactly as they do in the real app.
+  if (QS.get('opt') === '1') document.getElementById('gear').click();
   _render(MOCK);
 </script>
