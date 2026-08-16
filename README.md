@@ -4,10 +4,6 @@ A small floating desktop widget that shows your Claude Code usage — current 5-
 session and weekly (all models + Fable) — without opening the usage panel each time.
 It floats on top of your windows, or you can un-pin it to sit under them.
 
-<p align="center">
-  <img src="docs/shots/lcars.png" width="300" alt="The widget in its LCARS skin, heartbeat monitor open">
-</p>
-
 ### Twelve skins, one widget
 
 <table>
@@ -34,7 +30,7 @@ It floats on top of your windows, or you can un-pin it to sit under them.
 </table>
 
 <sub>Screenshots use mock data. The macOS and Windows 11 skins follow your system
-appearance, so they'll be light or dark to match; the shot above is dark mode.
+appearance, so they'll be light or dark to match; these were taken in dark mode.
 LCARS is shown with its fallback font &mdash; install
 <a href="https://fonts.google.com/specimen/Antonio">Antonio</a> for the exact TV lettering.</sub>
 
@@ -251,7 +247,8 @@ so a Fable figure would have to be invented.
 - `preload.js` — safe bridge between window and UI
 - `renderer/` — the card UI (`index.html`, `styles.css`, `renderer.js`)
 - `renderer/preview.html` — design preview with mock data (not used by the app).
-  Accepts `?skin=<name>` and `?mon=1` so a skin can be opened directly.
+  Accepts `?skin=<name>`, `?mon=1`, `?pct=` and `?wk=` so any skin can be opened
+  directly at any usage level (useful for checking layout at 100%).
 - `tools/shots.js` — regenerates the README screenshots into `docs/shots/`
   (`npx electron tools/shots.js`, optionally with skin names to do just a few)
 

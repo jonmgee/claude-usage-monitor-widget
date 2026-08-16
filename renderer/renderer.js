@@ -205,14 +205,17 @@ function renderMonitor(d) {
 // NIXIE: percentages as real nixie tubes + a brass pressure gauge for weekly
 function drawNixie(d) {
   const pct = d.session.pct == null ? '--' : String(d.session.pct);
+  // Three digits (100%) overflow the card at full tube size, so shrink them.
+  const tw = pct.length >= 3 ? 28 : 36;
+  const tf = pct.length >= 3 ? 24 : 30;
   const tubes = [...pct].map((ch) => `
     <span style="position:relative;display:inline-flex;align-items:center;justify-content:center;
-      width:36px;height:56px;margin:0 2px;
+      width:${tw}px;height:56px;margin:0 2px;
       background:radial-gradient(ellipse at 50% 35%, #241109, #120803 75%);
       border:2px solid rgba(215,235,235,0.3); border-bottom:5px solid #2aa198;
       border-radius:11px 11px 6px 6px; box-shadow: inset 0 0 10px rgba(255,120,20,0.25);">
-      <span style="position:absolute;font-family:Georgia,serif;font-size:30px;color:rgba(255,157,60,0.13);">8</span>
-      <span style="position:relative;font-family:Georgia,serif;font-size:30px;color:#ff9d3c;
+      <span style="position:absolute;font-family:Georgia,serif;font-size:${tf}px;color:rgba(255,157,60,0.13);">8</span>
+      <span style="position:relative;font-family:Georgia,serif;font-size:${tf}px;color:#ff9d3c;
         text-shadow:0 0 8px rgba(255,130,30,1),0 0 20px rgba(255,110,20,0.6);">${ch}</span>
     </span>`).join('');
   const w = d.week.pct == null ? 0 : d.week.pct;
@@ -231,7 +234,6 @@ function drawNixie(d) {
         <span style="font-family:Georgia,serif;font-size:15px;color:#ff9d3c;text-shadow:0 0 6px rgba(255,130,30,0.8);margin-left:3px;">%</span></div>
       <div style="font-size:10px;color:#c9a883;letter-spacing:0.1em;margin-top:4px;">SESSION \u00B7 RESET ${sReset}</div>
     </div>
-    <div style="flex:1;height:6px;background:linear-gradient(#8a5426,#c77b46 45%,#6b3d1a);border-radius:3px;box-shadow:0 1px 2px #000;"></div>
     <div style="text-align:center;">
       <svg width="90" height="90" viewBox="0 0 90 90">
         <circle cx="45" cy="45" r="43" fill="url(#nxbrass)" stroke="#5c3416" stroke-width="2"/>

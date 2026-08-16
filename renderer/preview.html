@@ -111,8 +111,8 @@
   const MOCK = {
     skin: QS.get('skin') || 'lcars',
     live: true, plan: 'Max (5x)', updatedAt: Date.now(), sampledAt: Date.now() - 5 * 60e3,
-    session: { pct: 22, reset: Date.now() + 4 * 3600e3 + 1 * 60e3, active: true, tokens: 4.6e6 },
-    week: { pct: 3, reset: new Date('2026-08-04T16:03:00').getTime(), tokens: 99.3e6 },
+    session: { pct: Number(QS.get('pct') ?? 22), reset: Date.now() + 4 * 3600e3 + 1 * 60e3, active: true, tokens: 4.6e6 },
+    week: { pct: Number(QS.get('wk') ?? 3), reset: new Date('2026-08-04T16:03:00').getTime(), tokens: 99.3e6 },
     credits: null,
     stepdown: { enabled: true, tiers: [{pct:50,model:'opus'},{pct:75,model:'sonnet'},{pct:90,model:'haiku'}], applied: null, original: null },
     heartbeat: {
