@@ -1,4 +1,4 @@
-# Claude usage widget
+# Claude Usage Monitor Widget
 
 A small floating desktop widget that shows your Claude Code usage — current 5-hour
 session and weekly (all models + Fable) — without opening the usage panel each time.
@@ -29,8 +29,8 @@ the Claude data folder (`%APPDATA%\Claude`), the CLI location, power management
 and fonts. **Windows is written but untested** — verify before trusting it:
 
 ```bash
-git clone https://github.com/jonmgee/claude-usage-widget
-cd claude-usage-widget
+git clone https://github.com/jonmgee/claude-usage-monitor-widget
+cd claude-usage-monitor-widget
 node check-env.js     # reports what it can find on this machine
 npm install
 npm start
