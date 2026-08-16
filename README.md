@@ -137,7 +137,7 @@ last 24 hours — a spike per ping, time axis along the bottom.
 
 ## Look & feel — skins
 
-Ten skins, switchable in ⚙ → SKIN (saved across restarts):
+Twelve skins, switchable in ⚙ → SKIN (saved across restarts):
 
 - **LCARS** (default) — Star Trek: TNG computer panel. Orange elbow, colored
   function rail, segmented meters. For the exact TV font install the free
@@ -163,7 +163,16 @@ Ten skins, switchable in ⚙ → SKIN (saved across restarts):
   black meter windows with red LED digits, strip-chart recorder ECG, and a red
   mushroom close button.
 
-The heartbeat ECG recolours per skin (green / LCD blue / phosphor / ink).
+- **macOS NATIVE** — looks like Apple shipped it: translucent vibrancy panel, SF
+  system font, system-blue bars, toolbar-style rail, System Settings-style grouped
+  rows with green toggles. **Follows your system light/dark mode automatically.**
+- **WINDOWS 11** — Fluent design: Mica-style translucent surface, Segoe UI, Fluent
+  cards and toggles, accent-blue progress. Also follows system light/dark.
+
+The heartbeat ECG recolours per skin (green / LCD blue / phosphor / ink / system blue).
+
+UI text is authored in sentence case; the themed skins re-uppercase it in CSS, so
+the two native skins read naturally while LCARS et al keep shouting.
 
 ## Where the numbers come from
 

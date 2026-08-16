@@ -771,3 +771,322 @@ html, body { background: transparent; -webkit-user-select: none; user-select: no
 
 /* ping failure state (wins over per-skin pingline colors) */
 .pingline.failed { color: #ff5544 !important; }
+
+/* ============================================================
+   SKIN: MACOS NATIVE (system widget; follows light/dark automatically)
+   ============================================================ */
+#card[data-skin="macos"] {
+  --mac-bg: rgba(246, 246, 248, 0.88);
+  --mac-fg: #1d1d1f;
+  --mac-2: #6e6e73;
+  --mac-3: #8e8e93;
+  --mac-sep: rgba(0, 0, 0, 0.09);
+  --mac-accent: #007aff;
+  --mac-track: rgba(120, 120, 128, 0.2);
+  --mac-fill: rgba(120, 120, 128, 0.12);
+  --mac-hover: rgba(120, 120, 128, 0.16);
+  font-family: -apple-system, "SF Pro Text", "Segoe UI", "Helvetica Neue", sans-serif;
+  text-transform: none;
+  letter-spacing: -0.01em;
+  color: var(--mac-fg);
+  background: var(--mac-bg);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  backdrop-filter: blur(28px) saturate(180%);
+  border: 0.5px solid rgba(0,0,0,0.14);
+  border-radius: 14px;
+  padding: 10px 12px 8px;
+  box-shadow: 0 8px 26px rgba(0,0,0,0.18);
+}
+@media (prefers-color-scheme: dark) {
+  #card[data-skin="macos"] {
+    --mac-bg: rgba(42, 42, 45, 0.9);
+    --mac-fg: #f5f5f7;
+    --mac-2: #aeaeb2;
+    --mac-3: #8e8e93;
+    --mac-sep: rgba(255, 255, 255, 0.11);
+    --mac-accent: #0a84ff;
+    --mac-track: rgba(120, 120, 128, 0.34);
+    --mac-fill: rgba(120, 120, 128, 0.22);
+    --mac-hover: rgba(255, 255, 255, 0.11);
+    border-color: rgba(255,255,255,0.12);
+  }
+}
+#card[data-skin="macos"] .elbow, #card[data-skin="macos"] .railcap { display: none; }
+#card[data-skin="macos"] .top { height: auto; margin-bottom: 8px; }
+#card[data-skin="macos"] .header {
+  background: none; border: none; border-radius: 0; padding: 0 2px 6px;
+  align-items: center; border-bottom: 0.5px solid var(--mac-sep);
+}
+#card[data-skin="macos"] .hdr-title {
+  color: var(--mac-fg); font-size: 13px; font-weight: 590; letter-spacing: -0.01em;
+}
+#card[data-skin="macos"] .hdr-plan {
+  color: var(--mac-2); font-size: 11px; font-weight: 500; opacity: 1;
+  background: var(--mac-fill); padding: 1px 7px; border-radius: 20px;
+}
+
+/* toolbar-style rail: borderless glyphs with a hover pill */
+#card[data-skin="macos"] .body { gap: 8px; }
+#card[data-skin="macos"] .rail { width: 30px; gap: 2px; align-items: center; padding-top: 2px; }
+#card[data-skin="macos"] .railbtn {
+  width: 26px; height: 26px; border-radius: 6px;
+  background: none; border: none; color: var(--mac-2);
+}
+#card[data-skin="macos"] .railbtn svg { width: 15px; height: 15px; }
+#card[data-skin="macos"] .railbtn:hover { background: var(--mac-hover); color: var(--mac-fg); filter: none; }
+#card[data-skin="macos"] #close:hover { background: rgba(255,69,58,0.16); color: #ff453a; }
+
+/* usage rows: plain label, tabular value, continuous rounded bar */
+#card[data-skin="macos"] .block { margin-bottom: 14px; }
+#card[data-skin="macos"] .brow { margin-bottom: 6px; }
+#card[data-skin="macos"] .blabel {
+  background: none; border: none; border-radius: 0; padding: 0;
+  color: var(--mac-fg); font-size: 12px; font-weight: 500; letter-spacing: -0.01em;
+}
+#card[data-skin="macos"] .bval {
+  color: var(--mac-2); font-size: 12px; font-weight: 400;
+  font-variant-numeric: tabular-nums; letter-spacing: 0;
+}
+#card[data-skin="macos"] .track {
+  height: 6px; background: var(--mac-track); border-radius: 3px;
+}
+#card[data-skin="macos"] .track::after { background-image: none; }
+#card[data-skin="macos"] .fill { background: var(--mac-accent) !important; border-radius: 3px; }
+#card[data-skin="macos"] .fill.alert { background: #ff453a !important; animation: none; }
+#card[data-skin="macos"] .sub { margin-top: 5px; font-size: 11px; color: var(--mac-3); letter-spacing: 0; }
+#card[data-skin="macos"] .abs { color: var(--mac-3); }
+
+#card[data-skin="macos"] .pingline { font-size: 11px; color: var(--mac-3); letter-spacing: 0; margin: 0 0 6px; }
+#card[data-skin="macos"] .pingline.fired { color: var(--mac-accent); }
+#card[data-skin="macos"] .foot {
+  border-top: 0.5px solid var(--mac-sep); margin-top: 8px; padding-top: 6px;
+  font-size: 11px; color: var(--mac-3); letter-spacing: 0;
+}
+#card[data-skin="macos"] .foot-code { color: var(--mac-3); }
+
+#card[data-skin="macos"] #monitor { border-top: 0.5px solid var(--mac-sep); }
+#card[data-skin="macos"] .mon-title {
+  color: var(--mac-fg); font-size: 12px; font-weight: 590; letter-spacing: -0.01em;
+}
+#card[data-skin="macos"] .ecg {
+  --ecg: var(--mac-accent); --ecg-bg: var(--mac-fill); --ecg-border: transparent;
+  --ecg-grid: var(--mac-track); --ecg-label: var(--mac-3);
+  border: none; border-radius: 8px;
+}
+#card[data-skin="macos"] .ecg-cap { color: var(--mac-3); font-size: 11px; letter-spacing: 0; }
+
+/* settings: System Settings-style inset group */
+#card[data-skin="macos"] #settings {
+  border-top: none; margin-top: 10px; padding: 4px 10px;
+  background: var(--mac-fill); border-radius: 10px;
+}
+#card[data-skin="macos"] .srow {
+  margin-bottom: 0; padding: 7px 0; border-bottom: 0.5px solid var(--mac-sep);
+}
+#card[data-skin="macos"] .srow label { color: var(--mac-fg); font-size: 12px; letter-spacing: 0; }
+#card[data-skin="macos"] .srow input, #card[data-skin="macos"] .srow select {
+  background: none; border: none; border-radius: 6px;
+  color: var(--mac-2); font-family: inherit; font-size: 12px; font-weight: 400;
+}
+#card[data-skin="macos"] .srow input[type="number"],
+#card[data-skin="macos"] .srow input[type="time"] {
+  background: var(--mac-hover); padding: 3px 7px;
+}
+#card[data-skin="macos"] .srow select { color: var(--mac-accent); }
+/* proper macOS toggle switch */
+#card[data-skin="macos"] .srow input[type="checkbox"] {
+  appearance: none; -webkit-appearance: none;
+  width: 34px; height: 20px; border-radius: 10px;
+  background: var(--mac-track); position: relative; transition: background 0.18s ease;
+}
+#card[data-skin="macos"] .srow input[type="checkbox"]::after {
+  content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px;
+  border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  transition: transform 0.18s ease;
+}
+#card[data-skin="macos"] .srow input[type="checkbox"]:checked { background: #34c759; }
+#card[data-skin="macos"] .srow input[type="checkbox"]:checked::after { transform: translateX(14px); }
+#card[data-skin="macos"] .snote { color: var(--mac-3); font-size: 10px; letter-spacing: 0; line-height: 1.45; }
+#card[data-skin="macos"] .sbtns { gap: 8px; padding-bottom: 8px; }
+#card[data-skin="macos"] #save {
+  background: var(--mac-accent); color: #fff; border: none; border-radius: 6px;
+  padding: 5px; font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none;
+}
+#card[data-skin="macos"] #save:hover { filter: brightness(1.08); }
+#card[data-skin="macos"] .ghost {
+  background: var(--mac-hover); color: var(--mac-fg); border: none; border-radius: 6px;
+  padding: 5px; font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none;
+}
+#card[data-skin="macos"] .ghost:hover { background: var(--mac-track); color: var(--mac-fg); }
+#card[data-skin="macos"] .mini {
+  background: none; border: none; color: var(--mac-accent);
+  font-size: 11px; font-weight: 400; letter-spacing: 0; text-transform: none;
+  padding: 4px 0; margin-bottom: 2px;
+}
+#card[data-skin="macos"] .mini:hover { background: none; color: var(--mac-accent); text-decoration: underline; }
+#card[data-skin="macos"] .hbdel {
+  background: none; border: none; color: var(--mac-3); border-radius: 50%;
+  width: 18px; height: 18px;
+}
+#card[data-skin="macos"] .hbdel:hover { background: rgba(255,69,58,0.16); color: #ff453a; }
+
+/* ============================================================
+   SKIN: WINDOWS 11 (Fluent / Mica; follows light/dark automatically)
+   ============================================================ */
+#card[data-skin="win11"] {
+  --w-bg: rgba(243, 243, 243, 0.92);
+  --w-card: rgba(255, 255, 255, 0.7);
+  --w-fg: #1b1b1b;
+  --w-2: #5d5d5d;
+  --w-3: #757575;
+  --w-stroke: rgba(0, 0, 0, 0.0578);
+  --w-ctrl: rgba(255, 255, 255, 0.7);
+  --w-ctrl-border: rgba(0, 0, 0, 0.0578);
+  --w-ctrl-bottom: rgba(0, 0, 0, 0.16);
+  --w-hover: rgba(0, 0, 0, 0.037);
+  --w-accent: #005fb8;
+  --w-track: rgba(0, 0, 0, 0.11);
+  font-family: "Segoe UI Variable Text", "Segoe UI", -apple-system, sans-serif;
+  text-transform: none; letter-spacing: 0;
+  color: var(--w-fg);
+  background: var(--w-bg);
+  -webkit-backdrop-filter: blur(30px) saturate(125%);
+  backdrop-filter: blur(30px) saturate(125%);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 8px;
+  padding: 10px 12px 8px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.14);
+}
+@media (prefers-color-scheme: dark) {
+  #card[data-skin="win11"] {
+    --w-bg: rgba(32, 32, 32, 0.94);
+    --w-card: rgba(255, 255, 255, 0.05);
+    --w-fg: #ffffff;
+    --w-2: #cfcfcf;
+    --w-3: #a0a0a0;
+    --w-stroke: rgba(255, 255, 255, 0.07);
+    --w-ctrl: rgba(255, 255, 255, 0.06);
+    --w-ctrl-border: rgba(255, 255, 255, 0.09);
+    --w-ctrl-bottom: rgba(255, 255, 255, 0.07);
+    --w-hover: rgba(255, 255, 255, 0.06);
+    --w-accent: #60cdff;
+    --w-track: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255,255,255,0.09);
+  }
+  #card[data-skin="win11"] #save { color: #1b1b1b; }
+}
+#card[data-skin="win11"] .elbow, #card[data-skin="win11"] .railcap { display: none; }
+#card[data-skin="win11"] .top { height: auto; margin-bottom: 8px; }
+#card[data-skin="win11"] .header {
+  background: none; border: none; border-radius: 0; padding: 0 2px 8px; align-items: center;
+}
+#card[data-skin="win11"] .hdr-title { color: var(--w-fg); font-size: 13px; font-weight: 600; }
+#card[data-skin="win11"] .hdr-plan {
+  color: var(--w-2); font-size: 11px; font-weight: 400; opacity: 1;
+  background: var(--w-ctrl); border: 1px solid var(--w-ctrl-border);
+  padding: 1px 8px; border-radius: 4px;
+}
+#card[data-skin="win11"] .body { gap: 8px; }
+#card[data-skin="win11"] .rail { width: 32px; gap: 3px; align-items: center; padding-top: 2px; }
+#card[data-skin="win11"] .railbtn {
+  width: 28px; height: 28px; border-radius: 4px;
+  background: none; border: 1px solid transparent; color: var(--w-2);
+}
+#card[data-skin="win11"] .railbtn svg { width: 15px; height: 15px; }
+#card[data-skin="win11"] .railbtn:hover {
+  background: var(--w-ctrl); border-color: var(--w-ctrl-border); color: var(--w-fg); filter: none;
+}
+#card[data-skin="win11"] #close:hover { background: #c42b1c; border-color: #c42b1c; color: #fff; }
+
+/* content sits on a Fluent card */
+#card[data-skin="win11"] .content {
+  background: var(--w-card); border: 1px solid var(--w-stroke);
+  border-radius: 7px; padding: 10px 12px 8px;
+}
+#card[data-skin="win11"] .block { margin-bottom: 14px; }
+#card[data-skin="win11"] .brow { margin-bottom: 6px; }
+#card[data-skin="win11"] .blabel {
+  background: none; border: none; border-radius: 0; padding: 0;
+  color: var(--w-fg); font-size: 12px; font-weight: 600;
+}
+#card[data-skin="win11"] .bval {
+  color: var(--w-2); font-size: 12px; font-weight: 400; font-variant-numeric: tabular-nums; letter-spacing: 0;
+}
+#card[data-skin="win11"] .track { height: 4px; background: var(--w-track); border-radius: 2px; }
+#card[data-skin="win11"] .track::after { background-image: none; }
+#card[data-skin="win11"] .fill { background: var(--w-accent) !important; border-radius: 2px; }
+#card[data-skin="win11"] .fill.alert { background: #c42b1c !important; animation: none; }
+#card[data-skin="win11"] .sub { margin-top: 6px; font-size: 11px; color: var(--w-3); letter-spacing: 0; }
+#card[data-skin="win11"] .abs { color: var(--w-3); }
+#card[data-skin="win11"] .pingline { font-size: 11px; color: var(--w-3); letter-spacing: 0; margin: 0 0 6px; }
+#card[data-skin="win11"] .pingline.fired { color: var(--w-accent); }
+#card[data-skin="win11"] .foot {
+  border-top: 1px solid var(--w-stroke); margin-top: 8px; padding-top: 7px;
+  font-size: 11px; color: var(--w-3); letter-spacing: 0;
+}
+#card[data-skin="win11"] .foot-code { color: var(--w-3); }
+#card[data-skin="win11"] #monitor { border-top: 1px solid var(--w-stroke); }
+#card[data-skin="win11"] .mon-title { color: var(--w-fg); font-size: 12px; font-weight: 600; letter-spacing: 0; }
+#card[data-skin="win11"] .ecg {
+  --ecg: var(--w-accent); --ecg-bg: var(--w-hover); --ecg-border: var(--w-stroke);
+  --ecg-grid: var(--w-track); --ecg-label: var(--w-3);
+  border-radius: 4px;
+}
+#card[data-skin="win11"] .ecg-cap { color: var(--w-3); font-size: 11px; letter-spacing: 0; }
+#card[data-skin="win11"] #settings { border-top: 1px solid var(--w-stroke); margin-top: 10px; padding-top: 8px; }
+#card[data-skin="win11"] .srow {
+  margin-bottom: 4px; padding: 6px 10px;
+  background: var(--w-ctrl); border: 1px solid var(--w-ctrl-border); border-radius: 4px;
+}
+#card[data-skin="win11"] .srow label { color: var(--w-fg); font-size: 12px; letter-spacing: 0; }
+#card[data-skin="win11"] .srow input, #card[data-skin="win11"] .srow select {
+  background: var(--w-hover); border: 1px solid var(--w-ctrl-border);
+  border-bottom: 1px solid var(--w-ctrl-bottom); border-radius: 4px;
+  color: var(--w-fg); font-family: inherit; font-size: 12px; font-weight: 400; padding: 2px 6px;
+}
+#card[data-skin="win11"] .srow select { color: var(--w-fg); }
+/* Fluent toggle */
+#card[data-skin="win11"] .srow input[type="checkbox"] {
+  appearance: none; -webkit-appearance: none;
+  width: 38px; height: 19px; border-radius: 10px; padding: 0;
+  background: transparent; border: 1px solid var(--w-2); position: relative; transition: all 0.15s ease;
+}
+#card[data-skin="win11"] .srow input[type="checkbox"]::after {
+  content: ""; position: absolute; top: 3px; left: 3px; width: 11px; height: 11px;
+  border-radius: 50%; background: var(--w-fg); transition: all 0.15s ease;
+}
+#card[data-skin="win11"] .srow input[type="checkbox"]:checked {
+  background: var(--w-accent); border-color: var(--w-accent);
+}
+#card[data-skin="win11"] .srow input[type="checkbox"]:checked::after {
+  transform: translateX(19px); background: #fff; width: 13px; height: 13px; top: 2px;
+}
+#card[data-skin="win11"] .snote { color: var(--w-3); font-size: 10px; letter-spacing: 0; line-height: 1.45; }
+#card[data-skin="win11"] .sbtns { gap: 8px; }
+#card[data-skin="win11"] #save {
+  background: var(--w-accent); color: #fff; border: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(0,0,0,0.2); border-radius: 4px;
+  padding: 5px; font-size: 12px; font-weight: 400; letter-spacing: 0; text-transform: none;
+}
+#card[data-skin="win11"] #save:hover { filter: brightness(1.1); }
+#card[data-skin="win11"] .ghost {
+  background: var(--w-ctrl); color: var(--w-fg);
+  border: 1px solid var(--w-ctrl-border); border-bottom: 1px solid var(--w-ctrl-bottom);
+  border-radius: 4px; padding: 5px; font-size: 12px; font-weight: 400;
+  letter-spacing: 0; text-transform: none;
+}
+#card[data-skin="win11"] .ghost:hover { background: var(--w-hover); color: var(--w-fg); }
+#card[data-skin="win11"] .mini {
+  background: var(--w-ctrl); border: 1px solid var(--w-ctrl-border);
+  border-bottom: 1px solid var(--w-ctrl-bottom); border-radius: 4px;
+  color: var(--w-fg); font-size: 11px; font-weight: 400; letter-spacing: 0;
+  text-transform: none; padding: 4px 10px;
+}
+#card[data-skin="win11"] .mini:hover { background: var(--w-hover); color: var(--w-fg); }
+#card[data-skin="win11"] .hbdel {
+  background: none; border: 1px solid transparent; color: var(--w-2);
+  border-radius: 4px; width: 20px; height: 20px;
+}
+#card[data-skin="win11"] .hbdel:hover { background: #c42b1c; border-color: #c42b1c; color: #fff; }
+
+#card[data-skin="macos"] .mini + .mini { margin-left: 14px; }

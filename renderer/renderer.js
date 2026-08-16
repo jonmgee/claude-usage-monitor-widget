@@ -17,7 +17,7 @@ function setBar(fillId, pctId, pct) {
 
 function countdown(ms) {
   const d = ms - Date.now();
-  if (d <= 0) return 'RESETS NOW';
+  if (d <= 0) return 'Resets now';
   const mins = Math.round(d / 60000);
   if (mins < 60) return `Resets in ${mins} min`;
   const h = Math.floor(mins / 60);
@@ -55,15 +55,17 @@ function fit() {
 
 function paintFooter(d) {
   if (!d.live) {
-    $('updated').textContent = 'NO LIVE DATA';
+    $('updated').textContent = 'No live data';
     $('updated').classList.add('stale');
     return;
   }
   // the cache only advances while the Claude desktop app is running
   const staleMin = (Date.now() - d.sampledAt) / 60000;
-  $('updated').textContent = (staleMin > 20 ? 'STALE ' : 'LIVE ') + ago(d.sampledAt);
+  $('updated').textContent = (staleMin > 20 ? 'Stale ' : 'Live ') + ago(d.sampledAt);
   $('updated').classList.toggle('stale', staleMin > 20);
 }
+
+const cap = (m) => String(m || '').charAt(0).toUpperCase() + String(m || '').slice(1);
 
 function hhmm(ts) {
   return new Date(ts).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
@@ -88,17 +90,17 @@ function paintPing(d) {
   if (!hb || !hb.enabled) { el.classList.add('hidden'); return; }
   el.classList.remove('hidden');
   const tri = '\u25B8'; // U+25B8 escape so file encoding can't mangle it
-  if (!hb.available) { el.textContent = `${tri} CLI NOT FOUND`; el.classList.remove('fired'); return; }
+  if (!hb.available) { el.textContent = `${tri} CLI not found`; el.classList.remove('fired'); return; }
   const today = new Date().toDateString();
   const firedToday = hb.lastAt && new Date(hb.lastAt).toDateString() === today;
   const failedToday = hb.lastError && new Date(hb.lastError.at).toDateString() === today
     && (!hb.lastAt || hb.lastError.at > hb.lastAt);
   const nxt = nextPing(hb.times);
   const parts = [];
-  if (failedToday) parts.push(`PING FAILED ${hhmm(hb.lastError.at)}`);
-  else if (firedToday) parts.push(`PINGED ${hhmm(hb.lastAt)}`);
-  if (nxt) parts.push(`NEXT ${nxt}`);
-  el.textContent = `${tri} ` + (parts.length ? parts.join(' \u00B7 ') : 'NO PING TIMES SET');
+  if (failedToday) parts.push(`Ping failed ${hhmm(hb.lastError.at)}`);
+  else if (firedToday) parts.push(`Pinged ${hhmm(hb.lastAt)}`);
+  if (nxt) parts.push(`Next ${nxt}`);
+  el.textContent = `${tri} ` + (parts.length ? parts.join(' \u00B7 ') : 'No ping times set');
   el.title = failedToday && hb.lastError.error ? hb.lastError.error : '';
   el.classList.toggle('failed', !!failedToday);
   el.classList.toggle('fired', !failedToday && !!firedToday);
@@ -112,7 +114,7 @@ function paintStepdown(d) {
   el.classList.remove('hidden');
   const tri = '\u25BE';
   if (sd.applied) {
-    el.textContent = `${tri} STEPPED DOWN \u2192 ${String(sd.applied).toUpperCase()}`;
+    el.textContent = `${tri} Stepped down \u2192 ${cap(sd.applied)}`;
     el.classList.add('fired');
     return;
   }
@@ -120,8 +122,8 @@ function paintStepdown(d) {
   const tiers = (sd.tiers || []).slice().sort((a, b) => a.pct - b.pct);
   const next = tiers.find((t) => pct == null || pct < t.pct);
   el.textContent = next
-    ? `${tri} STEP-DOWN AT ${next.pct}% \u2192 ${String(next.model).toUpperCase()}`
-    : `${tri} STEP-DOWN ARMED`;
+    ? `${tri} Step-down at ${next.pct}% \u2192 ${cap(next.model)}`
+    : `${tri} Step-down armed`;
   el.classList.remove('fired');
 }
 
@@ -194,8 +196,8 @@ function renderMonitor(d) {
   const in24 = hist.filter((t) => t >= now - 24 * 3600e3).length;
   const lastAt = hist.length ? hist[hist.length - 1] : null;
   $('ecg-cap').textContent = lastAt
-    ? `LAST BEAT ${hhmm(lastAt)} \u00B7 ${in24} IN 24H`
-    : 'NO BEATS \u00B7 MONITORING';
+    ? `Last beat ${hhmm(lastAt)} \u00B7 ${in24} in 24h`
+    : 'No beats \u00B7 monitoring';
 }
 
 // ---------- Per-skin centrepiece visualizations ----------
@@ -486,7 +488,7 @@ function drawDash(d) {
 }
 
 let curSkin = 'lcars';
-const FOOTCODES = { lcars: 'LCARS 24-47', dash: 'EB 16.4', term: 'READY.', scribble: 'p.1 \u00B7 draft', enigma: 'ENIGMA I \u00B7 Nr. A16247', nixie: 'IN-14 \u00B7 EST. 1897', synth: 'NEON DREAMS \u00B7 2087', cockpit: 'B737-8 \u00B7 G-JONG', gameboy: 'DMG-01', reactor: 'UNIT 1 \u00B7 CTRL RM' };
+const FOOTCODES = { lcars: 'LCARS 24-47', dash: 'EB 16.4', term: 'READY.', scribble: 'p.1 \u00B7 draft', enigma: 'ENIGMA I \u00B7 Nr. A16247', nixie: 'IN-14 \u00B7 EST. 1897', synth: 'NEON DREAMS \u00B7 2087', cockpit: 'B737-8 \u00B7 G-JONG', gameboy: 'DMG-01', reactor: 'UNIT 1 \u00B7 CTRL RM', macos: 'Version 0.1.0', win11: 'Claude Usage \u00B7 0.1.0' };
 function applySkin(s) {
   curSkin = s || 'lcars';
   const card = document.getElementById('card');
@@ -549,7 +551,7 @@ $('mon-btn').onclick = () => {
 function addTimeRow(val) {
   const row = document.createElement('div');
   row.className = 'srow hbrow';
-  row.innerHTML = '<label>PING AT</label><span class="hbwrap">' +
+  row.innerHTML = '<label>Ping at</label><span class="hbwrap">' +
     `<input type="time" value="${val || ''}">` +
     '<button class="hbdel" title="Remove this ping">\u2715</button></span>';
   row.querySelector('.hbdel').onclick = () => { row.remove(); fit(); };
@@ -572,8 +574,8 @@ function addTierRow(t) {
   const row = document.createElement('div');
   row.className = 'srow sdrow';
   const opts = SD_MODELS.map((m) =>
-    `<option value="${m}"${t && t.model === m ? ' selected' : ''}>${m.toUpperCase()}</option>`).join('');
-  row.innerHTML = '<label>AT %</label><span class="hbwrap">' +
+    `<option value="${m}"${t && t.model === m ? ' selected' : ''}>${cap(m)}</option>`).join('');
+  row.innerHTML = '<label>At %</label><span class="hbwrap">' +
     `<input type="number" class="sd-pct" min="1" max="99" step="1" value="${t ? t.pct : ''}">` +
     `<select class="sd-model">${opts}</select>` +
     '<button class="hbdel" title="Remove this tier">\u2715</button></span>';
@@ -600,8 +602,8 @@ $('sd-add').onclick = () => { addTierRow(null); fit(); };
 $('sd-restore').onclick = async () => {
   const btn = $('sd-restore');
   await window.api.restoreModel();
-  btn.textContent = 'RESTORED \u2713';
-  setTimeout(() => { btn.textContent = 'RESTORE MODEL NOW'; }, 2000);
+  btn.textContent = 'Restored \u2713';
+  setTimeout(() => { btn.textContent = 'Restore model now'; }, 2000);
 };
 
 // skin applies instantly on change — no save needed
@@ -639,9 +641,9 @@ $('save').onclick = async () => {
 $('pingnow').onclick = async () => {
   const btn = $('pingnow');
   const orig = btn.textContent;
-  btn.textContent = 'PINGING\u2026';
+  btn.textContent = 'Pinging\u2026';
   btn.disabled = true;
   const r = await window.api.pingNow();
-  btn.textContent = r && r.ok ? 'PINGED \u2713' : 'FAILED';
+  btn.textContent = r && r.ok ? 'Pinged \u2713' : 'Failed';
   setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 2500);
 };

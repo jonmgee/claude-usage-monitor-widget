@@ -6,8 +6,8 @@
   <div class="top">
     <div class="elbow"></div>
     <div class="header">
-      <span class="hdr-title">CLAUDE&nbsp;USAGE</span>
-      <span id="plan" class="hdr-plan">MAX 5X</span>
+      <span class="hdr-title">Claude&nbsp;Usage</span>
+      <span id="plan" class="hdr-plan">Max 5x</span>
     </div>
   </div>
   <div class="body">
@@ -37,56 +37,58 @@
       <div id="annunc"></div>
       <div id="skinviz"></div>
       <section class="block">
-        <div class="brow"><span class="blabel c-orange">CURRENT SESSION</span><span id="s-pct" class="bval">--</span></div>
+        <div class="brow"><span class="blabel c-orange">Current session</span><span id="s-pct" class="bval">--</span></div>
         <div class="track"><div id="s-fill" class="fill c-orange"></div></div>
         <div class="sub"><span id="s-reset">--</span><span id="s-abs" class="abs"></span></div>
       </section>
       <section class="block">
-        <div class="brow"><span class="blabel c-lav">WEEKLY&nbsp;&middot;&nbsp;ALL MODELS</span><span id="w-pct" class="bval">--</span></div>
+        <div class="brow"><span class="blabel c-lav">Weekly&nbsp;&middot;&nbsp;All models</span><span id="w-pct" class="bval">--</span></div>
         <div class="track"><div id="w-fill" class="fill c-lav"></div></div>
         <div class="sub"><span id="w-reset"></span><span id="w-abs" class="abs"></span></div>
       </section>
       <div id="pingline" class="pingline hidden"></div>
       <div id="stepline" class="pingline hidden"></div>
       <div id="monitor" class="hidden">
-        <div class="mon-title">HEARTBEAT MONITOR</div>
+        <div class="mon-title">Heartbeat monitor</div>
         <div id="ecg" class="ecg"></div>
         <div id="ecg-cap" class="ecg-cap"></div>
       </div>
       <div id="settings" class="hidden">
-        <div class="srow"><label>SKIN</label><select id="skin">
+        <div class="srow"><label>Skin</label><select id="skin">
           <option value="lcars">LCARS</option>
-          <option value="dash">DASHBOARD</option>
-          <option value="term">RETRO TERMINAL</option>
-          <option value="scribble">SCRIBBLE</option>
-          <option value="enigma">ENIGMA</option>
-          <option value="nixie">NIXIE STEAMPUNK</option>
-          <option value="synth">SYNTHWAVE</option>
-          <option value="cockpit">COCKPIT</option>
-          <option value="gameboy">GAME BOY</option>
-          <option value="reactor">REACTOR</option>
+          <option value="dash">Dashboard</option>
+          <option value="term">Retro terminal</option>
+          <option value="scribble">Scribble</option>
+          <option value="enigma">Enigma</option>
+          <option value="nixie">Nixie steampunk</option>
+          <option value="synth">Synthwave</option>
+          <option value="cockpit">Cockpit</option>
+          <option value="gameboy">Game Boy</option>
+          <option value="reactor">Reactor</option>
+          <option value="macos">macOS native</option>
+          <option value="win11">Windows 11</option>
         </select></div>
-        <div class="srow"><label>AUTO-PING</label><input id="hb-on" type="checkbox"></div>
+        <div class="srow"><label>Auto-ping</label><input id="hb-on" type="checkbox"></div>
         <div id="hb-times"></div>
-        <button id="hb-add" class="mini">+ ADD PING TIME</button>
-        <div class="srow"><label>AUTO STEP-DOWN</label><input id="sd-on" type="checkbox"></div>
+        <button id="hb-add" class="mini">+ Add ping time</button>
+        <div class="srow"><label>Auto step-down</label><input id="sd-on" type="checkbox"></div>
         <div id="sd-tiers"></div>
-        <button id="sd-add" class="mini">+ ADD TIER</button>
-        <button id="sd-restore" class="mini">RESTORE MODEL NOW</button>
-        <div class="srow"><label>KEEP MAC AWAKE</label><select id="caff">
-          <option value="off">OFF</option>
-          <option value="system">SYSTEM ONLY</option>
-          <option value="system-off">SYSTEM ONLY + SCREEN OFF NOW</option>
-          <option value="display">SYSTEM + DISPLAY</option>
+        <button id="sd-add" class="mini">+ Add tier</button>
+        <button id="sd-restore" class="mini">Restore model now</button>
+        <div class="srow"><label>Keep Mac awake</label><select id="caff">
+          <option value="off">Off</option>
+          <option value="system">System only</option>
+          <option value="system-off">System only + screen off now</option>
+          <option value="display">System + display</option>
         </select></div>
-        <div class="srow"><label>REFRESH (SEC)</label><input id="b-refresh" type="number"></div>
-        <div class="snote">EACH PING SENDS A TINY MESSAGE AT ITS TIME TO START A 5-HOUR WINDOW (ENDS ~5H LATER) &middot; ONLY IF NO WINDOW IS ACTIVE &middot; KEEP MAC AWAKE = SYSTEM ONLY LETS THE SCREEN SLEEP BUT PINGS STILL FIRE (LID OPEN OR ON POWER)</div>
+        <div class="srow"><label>Refresh (sec)</label><input id="b-refresh" type="number"></div>
+        <div class="snote">Each ping sends a tiny message at its time to start a 5-hour window (ends ~5h later) &middot; only if no window is active &middot; Keep Mac awake = system only lets the screen sleep but pings still fire (lid open or on power)</div>
         <div class="sbtns">
-          <button id="pingnow" class="ghost">PING&nbsp;NOW</button>
-          <button id="save">SAVE</button>
+          <button id="pingnow" class="ghost">Ping&nbsp;now</button>
+          <button id="save">Save</button>
         </div>
       </div>
-      <div class="foot"><span class="foot-code">LCARS&nbsp;24-47</span><span id="updated">LOADING&hellip;</span></div>
+      <div class="foot"><span class="foot-code">LCARS&nbsp;24-47</span><span id="updated">Loading&hellip;</span></div>
     </div>
   </div>
 </div>
