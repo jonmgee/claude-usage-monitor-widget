@@ -115,6 +115,16 @@ function push() {
   maybeStepdown(u);
 }
 
+// The CLI reports real failures on STDOUT (e.g. an expired login) while stderr
+// often carries only warnings, so read stdout first and drop known noise.
+function pingError(stdout, stderr, err) {
+  const noise = /no stdin data received/i;
+  const out = String(stdout || '').trim();
+  const errOut = String(stderr || '').trim();
+  const pick = out || (noise.test(errOut) ? '' : errOut) || String(err && err.message || err);
+  return pick.split('\n').filter((l) => !noise.test(l)).join(' ').trim().slice(0, 160);
+}
+
 // Fire a minimal, cheap CLI call to start a 5-hour window. Resolves {ok} / {ok:false,error}.
 function fireHeartbeat() {
   return new Promise((resolve) => {
@@ -129,14 +139,15 @@ function fireHeartbeat() {
     const needsShell = process.platform === 'win32' && /\.(cmd|bat)$/i.test(CLI);
     execFile(CLI,
       ['-p', 'Reply with the single word: ok', '--model', 'haiku', '--no-session-persistence'],
-      { timeout: 90000, windowsHide: true, env, shell: needsShell },
-      (err, _stdout, stderr) => {
+      // stdin ignored: the CLI otherwise waits 3s for piped input on every ping
+      // and writes a warning to stderr that masks the real error.
+      { timeout: 90000, windowsHide: true, env, shell: needsShell, stdio: ['ignore', 'pipe', 'pipe'] },
+      (err, stdout, stderr) => {
         if (err) {
-          const msg = String((stderr || '').trim() || err.message || err).slice(0, 160);
-          cfg.lastPingError = { at: Date.now(), error: msg };
+          cfg.lastPingError = { at: Date.now(), error: pingError(stdout, stderr, err) };
           saveCfg(cfg);
           push();
-          resolve({ ok: false, error: msg });
+          resolve({ ok: false, error: cfg.lastPingError.error });
           return;
         }
         const at = Date.now();
@@ -169,6 +180,9 @@ function maybeHeartbeat(usage) {
     const st = cfg.pingFails[t];
     const attempts = st && st.day === dayKey ? st.attempts : 0;
     if (attempts >= 3) continue;                         // gave up on this slot today
+    // An expired CLI login needs the user to sign in again; retrying can't help.
+    if (cfg.lastPingError && /authenticat|oauth/i.test(cfg.lastPingError.error || '')
+        && attempts >= 1) continue;
     cfg.pingFails[t] = { day: dayKey, attempts: attempts + 1 }; // claim attempt before async fire
     saveCfg(cfg);
     fireHeartbeat().then((r) => {

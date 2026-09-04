@@ -97,11 +97,17 @@ function paintPing(d) {
     && (!hb.lastAt || hb.lastError.at > hb.lastAt);
   const nxt = nextPing(hb.times);
   const parts = [];
-  if (failedToday) parts.push(`Ping failed ${hhmm(hb.lastError.at)}`);
+  // An expired CLI login can't fix itself, so say so on the card rather than
+  // leaving the reason buried in the tooltip.
+  const signedOut = failedToday && /authenticat|oauth|log ?in|sign ?in|expired/i.test(hb.lastError.error || '');
+  if (signedOut) parts.push('Ping failed - CLI signed out');
+  else if (failedToday) parts.push(`Ping failed ${hhmm(hb.lastError.at)}`);
   else if (firedToday) parts.push(`Pinged ${hhmm(hb.lastAt)}`);
   if (nxt) parts.push(`Next ${nxt}`);
   el.textContent = `${tri} ` + (parts.length ? parts.join(' \u00B7 ') : 'No ping times set');
-  el.title = failedToday && hb.lastError.error ? hb.lastError.error : '';
+  el.title = signedOut
+    ? `${hb.lastError.error}\n\nRun "claude" in a terminal and sign in again.`
+    : (failedToday && hb.lastError.error ? hb.lastError.error : '');
   el.classList.toggle('failed', !!failedToday);
   el.classList.toggle('fired', !failedToday && !!firedToday);
 }
