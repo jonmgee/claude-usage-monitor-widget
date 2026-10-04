@@ -769,8 +769,9 @@ html, body { background: transparent; -webkit-user-select: none; user-select: no
 #card[data-skin="synth"] #skinviz svg { border: 1px solid #3a2470; border-radius: 6px; }
 #card[data-skin="nixie"] #skinviz { padding: 4px 0 2px; }
 
-/* ping failure state (wins over per-skin pingline colors) */
+/* ping failure / login-expiry states (win over per-skin pingline colors) */
 .pingline.failed { color: #ff5544 !important; }
+.pingline.warn { color: #ffaa33 !important; }
 
 /* ============================================================
    SKIN: MACOS NATIVE (system widget; follows light/dark automatically)

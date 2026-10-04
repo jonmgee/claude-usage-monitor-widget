@@ -125,6 +125,7 @@
     heartbeat: {
       enabled: true, times: ['07:45', '15:30'], available: true,
       lastAt: Date.now() - 40 * 60e3,
+      loginExpiresAt: QS.has('exp') ? Date.now() + Number(QS.get('exp')) * 86400000 : null,
       history: [Date.now() - 21 * 3600e3, Date.now() - 9.5 * 3600e3, Date.now() - 40 * 60e3],
     },
   };

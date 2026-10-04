@@ -50,6 +50,43 @@ function findCli() {
 }
 const CLI = findCli();
 
+// --- CLI login expiry -------------------------------------------------------
+// The CLI's OAuth refresh token lasts about 30 days; when it lapses every ping
+// fails until the user signs in again. The expiry date is stored alongside the
+// credentials, so read JUST that timestamp and warn before it bites.
+//
+// Only refreshTokenExpiresAt is kept. The tokens themselves are never stored,
+// logged or sent anywhere. On macOS the credentials live in the login keychain;
+// elsewhere they are a file. Any failure here is silent: no warning, no noise.
+let loginExpiresAt = null;      // ms, or null if unknown
+let loginCheckedAt = 0;
+const LOGIN_CHECK_EVERY = 60 * 60 * 1000;   // hourly is plenty for a 30-day clock
+
+function pickExpiry(raw) {
+  try {
+    const o = JSON.parse(raw);
+    const v = (o.claudeAiOauth || o).refreshTokenExpiresAt;
+    return typeof v === 'number' && v > 0 ? v : null;
+  } catch { return null; }
+}
+
+function refreshLoginExpiry() {
+  const now = Date.now();
+  if (now - loginCheckedAt < LOGIN_CHECK_EVERY) return;
+  loginCheckedAt = now;
+
+  if (process.platform === 'darwin') {
+    execFile('/usr/bin/security',
+      ['find-generic-password', '-s', 'Claude Code-credentials', '-w'],
+      { timeout: 5000 },
+      (err, stdout) => { if (!err) loginExpiresAt = pickExpiry(stdout); });
+    return;
+  }
+  fs.readFile(path.join(os.homedir(), '.claude', '.credentials.json'), 'utf8',
+    (err, txt) => { if (!err) loginExpiresAt = pickExpiry(txt); });
+}
+refreshLoginExpiry();
+
 function loadCfg() {
   let c;
   try { c = { ...DEFAULTS, ...JSON.parse(fs.readFileSync(CFG, 'utf8')) }; }
@@ -104,11 +141,13 @@ function build() {
       lastAt: cfg.lastHeartbeatAt,
       lastError: cfg.lastPingError,
       available: !!CLI,
+      loginExpiresAt,
       history: cfg.heartbeats || [],
     },
   };
 }
 function push() {
+  refreshLoginExpiry();
   const u = build();
   if (win && !win.isDestroyed()) win.webContents.send('usage', u);
   maybeHeartbeat(u);

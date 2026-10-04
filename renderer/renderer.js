@@ -104,12 +104,33 @@ function paintPing(d) {
   else if (failedToday) parts.push(`Ping failed ${hhmm(hb.lastError.at)}`);
   else if (firedToday) parts.push(`Pinged ${hhmm(hb.lastAt)}`);
   if (nxt) parts.push(`Next ${nxt}`);
+  // The CLI login lapses roughly monthly and takes every ping with it, so give
+  // some notice rather than letting it fail silently one morning.
+  const warn = !signedOut && loginWarning(hb.loginExpiresAt);
+  if (warn) parts.push(warn);
   el.textContent = `${tri} ` + (parts.length ? parts.join(' \u00B7 ') : 'No ping times set');
-  el.title = signedOut
+  el.title = warn
+    ? 'Run "claude" in a terminal and sign in again to renew it.'
+    : signedOut
     ? `${hb.lastError.error}\n\nRun "claude" in a terminal and sign in again.`
     : (failedToday && hb.lastError.error ? hb.lastError.error : '');
   el.classList.toggle('failed', !!failedToday);
-  el.classList.toggle('fired', !failedToday && !!firedToday);
+  el.classList.toggle('warn', !failedToday && !!warn);
+  el.classList.toggle('fired', !failedToday && !warn && !!firedToday);
+}
+
+// Returns a short notice when the CLI login is nearly (or already) expired.
+function loginWarning(expiresAt) {
+  if (!expiresAt) return '';                      // unknown: say nothing
+  // Calendar days apart, not elapsed 24h blocks: "tomorrow" should mean the
+  // next date, however many hours away that happens to be.
+  const midnight = (t) => { const d = new Date(t); d.setHours(0, 0, 0, 0); return d.getTime(); };
+  const days = Math.round((midnight(expiresAt) - midnight(Date.now())) / 86400000);
+  if (days < 0) return 'Login expired - sign in';
+  if (days > 7) return '';
+  if (days === 0) return 'Login expires today';
+  if (days === 1) return 'Login expires tomorrow';
+  return `Login expires in ${days} days`;
 }
 
 // Auto step-down status line

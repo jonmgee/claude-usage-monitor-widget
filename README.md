@@ -140,6 +140,11 @@ working — giving you two full session allowances across an evening instead of 
   and each time slot fires at most once per day.
 - It gives **no extra weekly quota** — this is window *scheduling*, not a cap bypass.
 - Needs the Claude Code CLI at `~/.local/bin/claude` (auto-detected).
+- **Login expiry warning**: the CLI's sign-in lapses about every 30 days, and when
+  it does every ping fails until you run `claude` and sign in again. The card
+  warns in amber from a week out (`Login expires in 5 days`), and says
+  `Ping failed - CLI signed out` once it has actually bitten. See `SECURITY.md`
+  for exactly what the check reads.
 - **PING NOW** in settings fires one immediately.
 
 ### Auto step-down (model tiers)
