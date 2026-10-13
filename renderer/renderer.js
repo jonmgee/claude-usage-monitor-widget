@@ -114,6 +114,9 @@ function paintPing(d) {
     : signedOut
     ? `${hb.lastError.error}\n\nRun "claude" in a terminal and sign in again.`
     : (failedToday && hb.lastError.error ? hb.lastError.error : '');
+  // The sign-in button rides along with the warning: visible only when there is
+  // something to fix, so the card stays compact the rest of the month.
+  $('signin').classList.toggle('hidden', !(signedOut || warn));
   el.classList.toggle('failed', !!failedToday);
   el.classList.toggle('warn', !failedToday && !!warn);
   el.classList.toggle('fired', !failedToday && !warn && !!firedToday);
@@ -637,6 +640,15 @@ $('sd-restore').onclick = async () => {
 
 // skin applies instantly on change — no save needed
 $('skin').onchange = () => { window.api.setConfig({ skin: $('skin').value || 'lcars' }); };
+
+async function doSignIn(btn) {
+  const was = btn.textContent;
+  const r = await window.api.signIn();
+  btn.textContent = r && r.ok ? 'Terminal opened - sign in there' : (r && r.error) || 'Could not open a terminal';
+  setTimeout(() => { btn.textContent = was; }, 6000);
+}
+$('signin').onclick = () => doSignIn($('signin'));
+$('signin2').onclick = () => doSignIn($('signin2'));
 
 $('gear').onclick = async () => {
   const s = $('settings');

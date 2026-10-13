@@ -47,6 +47,7 @@
         <div class="sub"><span id="w-reset"></span><span id="w-abs" class="abs"></span></div>
       </section>
       <div id="pingline" class="pingline hidden"></div>
+      <button id="signin" class="mini hidden">Sign in to Claude CLI</button>
       <div id="stepline" class="pingline hidden"></div>
       <div id="monitor" class="hidden">
         <div class="mon-title">Heartbeat monitor</div>
@@ -75,6 +76,7 @@
         <div id="sd-tiers"></div>
         <button id="sd-add" class="mini">+ Add tier</button>
         <button id="sd-restore" class="mini">Restore model now</button>
+        <button id="signin2" class="mini">Sign in to Claude CLI</button>
         <div class="srow"><label>Keep Mac awake</label><select id="caff">
           <option value="off">Off</option>
           <option value="system">System only</option>
@@ -106,6 +108,7 @@
     togglePin: () => {}, dock: () => {}, close: () => {},
     restoreModel: async () => ({ ok: true }),
     pingNow: async () => ({ ok: true }),
+    signIn: async () => ({ ok: true }),
   };
   const QS = new URLSearchParams(location.search);
   // ?bare=<px> drops the harness chrome and pins the card to a real window width,

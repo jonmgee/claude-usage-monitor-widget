@@ -11,5 +11,6 @@ contextBridge.exposeInMainWorld('api', {
   close: () => ipcRenderer.send('close'),
   pingNow: () => ipcRenderer.invoke('pingNow'),
   restoreModel: () => ipcRenderer.invoke('restoreModel'),
+  signIn: () => ipcRenderer.invoke('signIn'),
   fitHeight: (h) => ipcRenderer.send('fitHeight', h),
 });

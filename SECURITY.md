@@ -26,13 +26,17 @@ one dependency, no build step.
      opt-in auto step-down feature. Read-merge-write; no other key is touched;
      your original value is auto-restored on window reset, on disable, and on quit.
 
-- **Runs exactly three external commands**, all with hard-coded arguments (no
+- **Runs exactly four external commands**, all with hard-coded arguments (no
   config or user input is ever interpolated into a command line):
   1. the Claude Code CLI, for the opt-in auto-ping — a one-word Haiku message
      that spends a sliver of *your own* quota to start a usage window
   2. `pmset displaysleepnow` (macOS only), for the opt-in screen-off mode
   3. `security find-generic-password -s "Claude Code-credentials" -w` (macOS
      only), once an hour, to read the CLI login's expiry date — see below
+  4. `osascript` (macOS) / `cmd /k` (Windows), only when you press **Sign in**,
+     to open a terminal running `claude /login`. The widget never sees, types or
+     stores anything from that flow — the sign-in happens entirely in the
+     terminal and your browser.
 
 ### The login-expiry check
 

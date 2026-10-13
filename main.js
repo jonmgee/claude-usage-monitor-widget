@@ -20,6 +20,8 @@ const DEFAULTS = {
   heartbeatEnabled: false,
   heartbeatTimes: ['15:30'], // HH:MM local — each ping starts a window ending ~5h later
   lastHeartbeatAt: null,   // ms of last successful ping (for the countdown + display)
+  lastAuthNotify: null,     // dayKey of the last 'signed out' notification
+  lastExpiryNotify: null,  // dayKey of the last 'expiring soon' notification
   lastFires: {},           // { 'HH:MM': dayKey } set ONLY on success now
   pingFails: {},           // { 'HH:MM': {day, attempts} } retry tracker (max 3/day)
   lastPingError: null,     // { at: ms, error: str } most recent failure, for display
@@ -146,8 +148,34 @@ function build() {
     },
   };
 }
+// Tell the user before the login dies, and when it has. Once a day at most:
+// the card already carries the detail, this is just so it is not missed.
+function maybeLoginNotify() {
+  const now = new Date();
+  const dayKey = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`;
+  const authFailed = cfg.lastPingError && /authenticat|oauth/i.test(cfg.lastPingError.error || '');
+
+  if (authFailed) {
+    if (cfg.lastAuthNotify === dayKey) return;
+    cfg.lastAuthNotify = dayKey;
+    saveCfg(cfg);
+    notify('Claude usage widget', 'Auto-ping has stopped: the Claude CLI is signed out. Click Sign in on the widget to fix it.');
+    return;
+  }
+  if (!loginExpiresAt) return;
+  const days = Math.ceil((loginExpiresAt - Date.now()) / 86400000);
+  if (days > 7) return;
+  if (cfg.lastExpiryNotify === dayKey) return;
+  cfg.lastExpiryNotify = dayKey;
+  saveCfg(cfg);
+  notify('Claude usage widget',
+    days <= 0 ? 'The Claude CLI login has expired - auto-ping will fail until you sign in again.'
+              : `The Claude CLI login expires in ${days} day${days === 1 ? '' : 's'}. Sign in again to keep auto-ping running.`);
+}
+
 function push() {
   refreshLoginExpiry();
+  maybeLoginNotify();
   const u = build();
   if (win && !win.isDestroyed()) win.webContents.send('usage', u);
   maybeHeartbeat(u);
@@ -259,6 +287,25 @@ function writeCCModel(model) {
     return true;
   } catch { return false; }
 }
+// Open a terminal sitting at the CLI's sign-in flow. The login has to happen in
+// a real terminal (it prints a URL and waits for a code), but the user should
+// not have to find one. Fixed command strings; nothing is interpolated.
+function openSignIn() {
+  if (process.platform === 'darwin') {
+    execFile('/usr/bin/osascript', [
+      '-e', 'tell application "Terminal" to do script "claude /login"',
+      '-e', 'tell application "Terminal" to activate',
+    ], { timeout: 10000 }, () => {});
+    return { ok: true };
+  }
+  if (process.platform === 'win32') {
+    execFile('cmd.exe', ['/c', 'start', '', 'cmd', '/k', 'claude', '/login'],
+      { timeout: 10000, windowsHide: true }, () => {});
+    return { ok: true };
+  }
+  return { ok: false, error: 'Open a terminal and run: claude /login' };
+}
+
 function notify(title, body) {
   try {
     if (Notification.isSupported()) new Notification({ title, body }).show();
@@ -384,6 +431,7 @@ ipcMain.handle('setConfig', (_e, patch) => {
   push();
   return cfg;
 });
+ipcMain.handle('signIn', () => openSignIn());
 ipcMain.handle('restoreModel', () => { restoreStepdown(); push(); return { ok: true }; });
 ipcMain.on('togglePin', () => {
   cfg.alwaysOnTop = !cfg.alwaysOnTop;
